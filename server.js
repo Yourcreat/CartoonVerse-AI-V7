@@ -310,3 +310,94 @@ Everything must use the SAME character consistently.
   }
 
 });
+// =======================
+// IMAGE
+// =======================
+
+bot.onText(/\/image (.+)/, async (msg, match) => {
+
+  const chatId = msg.chat.id;
+  const projectName = match[1];
+
+  const savedCharacter = getCharacter(projectName);
+
+  if (!savedCharacter) {
+
+    return bot.sendMessage(
+      chatId,
+      "❌ Project not found.\n\nCreate it first using:\n/project " + projectName
+    );
+
+  }
+
+  await bot.sendMessage(
+    chatId,
+    "🎨 Creating Consistent Image Prompts..."
+  );
+
+  try {
+
+    const response = await ai.models.generateContent({
+
+      model: "gemini-2.5-flash",
+
+      contents: `
+      Create 10 Pixar 3D image prompts.
+
+Project:
+${projectName}
+
+Previously Saved Character:
+${savedCharacter}
+
+Return:
+
+# Scene 1 Image Prompt
+
+# Scene 2 Image Prompt
+
+# Scene 3 Image Prompt
+
+# Scene 4 Image Prompt
+
+# Scene 5 Image Prompt
+
+# Scene 6 Image Prompt
+
+# Scene 7 Image Prompt
+
+# Scene 8 Image Prompt
+
+# Scene 9 Image Prompt
+
+# Scene 10 Image Prompt
+
+Requirements:
+
+- Use EXACTLY the same character.
+- Never change clothes.
+- Never change hairstyle.
+- Never change face.
+- Pixar 3D
+- Cinematic lighting
+- Ultra detailed
+- 8K
+`
+
+    });
+
+    await sendLongMessage(chatId, response.text);
+
+  } catch (err) {
+
+    console.error(err);
+
+    await bot.sendMessage(
+      chatId,
+      "❌ Image Error:\n" +
+      (err.message || JSON.stringify(err))
+    );
+
+  }
+
+});
