@@ -101,3 +101,75 @@ function getCharacter(projectName) {
   return project.character || null;
 
 }
+// =======================
+// START COMMAND
+// =======================
+
+bot.onText(/\/start/, async (msg) => {
+
+  await bot.sendMessage(
+    msg.chat.id,
+`🎬 CartoonVerse AI V7
+
+Welcome!
+
+Available Commands
+
+/project Topic
+/story Topic
+/movie Topic
+/image ProjectName
+/video ProjectName
+/open ProjectName
+/list
+/delete ProjectName
+/title Topic
+/thumbnail Topic
+/help`
+  );
+
+});
+
+// =======================
+// HELP
+// =======================
+
+bot.onText(/\/help/, async (msg) => {
+
+  await bot.sendMessage(
+    msg.chat.id,
+`📖 CartoonVerse AI V7
+
+/project Football Hero
+Creates & saves a complete project
+
+/story Football Hero
+Creates only the story
+
+/movie Football Hero
+Creates a 10-scene movie
+
+/image Football Hero
+Creates image prompts using saved character memory
+
+/video Football Hero
+Creates video prompts
+
+/open Football Hero
+Open saved project
+
+/list
+Show all saved projects
+
+/delete Football Hero
+Delete a project
+
+/title Football Hero
+Generate YouTube titles
+
+/thumbnail Football Hero
+Generate thumbnail prompt`
+  );
+
+});
+
