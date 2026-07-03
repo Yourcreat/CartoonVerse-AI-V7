@@ -43,3 +43,42 @@ Return:
 # MOVIE SCRIPT
 `
 });
+  const projectData = {
+  topic,
+  createdAt: new Date().toISOString(),
+
+  content: response.text,
+
+  character: response.text
+};
+
+saveProject(
+  topic,
+  projectData
+);
+
+await bot.sendMessage(
+  chatId,
+  `✅ Project "${topic}" saved successfully!`
+);
+
+await sendLongMessage(
+  bot,
+  chatId,
+  response.text
+);
+} catch (err) {
+
+  console.error(err);
+
+  await bot.sendMessage(
+    chatId,
+    "❌ Project Error:\n" +
+    (err.message || JSON.stringify(err))
+  );
+
+}
+
+});
+
+};
