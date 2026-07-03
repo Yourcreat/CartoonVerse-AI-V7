@@ -1,1 +1,25 @@
-
+{
+  "name": "cartoonverse-ai-v7",
+  "version": "1.0.0",
+  "description": "Professional Telegram AI Bot for Cartoon Movie Creation",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "telegram",
+    "gemini",
+    "ai",
+    "cartoon",
+    "youtube"
+  ],
+  "author": "Your Create",
+  "license": "MIT",
+  "dependencies": {
+    "@google/genai": "^1.16.0",
+    "dotenv": "^16.6.1",
+    "express": "^5.1.0",
+    "node-telegram-bot-api": "^0.66.0"
+  }
+}
