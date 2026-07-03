@@ -173,3 +173,140 @@ Generate thumbnail prompt`
 
 });
 
+// =======================
+// PROJECT
+// =======================
+
+bot.onText(/\/project (.+)/, async (msg, match) => {
+
+  const chatId = msg.chat.id;
+  const topic = match[1];
+
+  await bot.sendMessage(
+    chatId,
+    "🚀 Creating Complete Project...\n\nThis may take 20–60 seconds..."
+  );
+
+  try {
+
+    const response = await ai.models.generateContent({
+      model: "gemini-2.5-flash",
+      contents: `
+You are a professional Pixar movie writer.
+
+Create one complete YouTube animation project.
+
+TOPIC:
+${topic}
+
+Return exactly in this format:
+
+# TITLE
+
+# CHARACTER SHEET
+
+Include:
+- Name
+- Age
+- Gender
+- Hair
+- Eyes
+- Face
+- Body
+- Clothes
+- Shoes
+- Personality
+
+# STORY
+
+# IMAGE PROMPTS
+
+Scene 1
+Scene 2
+Scene 3
+Scene 4
+Scene 5
+Scene 6
+Scene 7
+Scene 8
+Scene 9
+Scene 10
+
+# VIDEO PROMPTS
+
+Scene 1
+Scene 2
+Scene 3
+Scene 4
+Scene 5
+Scene 6
+Scene 7
+Scene 8
+Scene 9
+Scene 10
+
+# MOVIE SCRIPT
+
+Scene 1
+Scene 2
+Scene 3
+Scene 4
+Scene 5
+Scene 6
+Scene 7
+Scene 8
+Scene 9
+Scene 10
+
+Everything must use the SAME character consistently.
+`
+    });
+
+    const projectText = response.text;
+        // =======================
+    // Extract Character Sheet
+    // =======================
+
+    let characterSheet = "";
+
+    const characterMatch = projectText.match(
+      /# CHARACTER SHEET([\s\S]*?)# STORY/i
+    );
+
+    if (characterMatch) {
+      characterSheet = characterMatch[1].trim();
+    }
+
+    // =======================
+    // Save Project
+    // =======================
+
+    const projectData = {
+      topic,
+      createdAt: new Date().toISOString(),
+      character: characterSheet,
+      content: projectText
+    };
+
+    saveProject(topic, projectData);
+
+    await bot.sendMessage(
+      chatId,
+      `✅ Project "${topic}" saved successfully!`
+    );
+
+    await sendLongMessage(chatId, projectText);
+
+  } catch (err) {
+
+    console.error(err);
+
+    await bot.sendMessage(
+      chatId,
+      "❌ Project Error:\n" +
+      (err.message || JSON.stringify(err))
+    );
+
+  }
+
+});
