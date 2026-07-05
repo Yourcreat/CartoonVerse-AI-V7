@@ -5,17 +5,12 @@ module.exports = function (bot, ai, sendLongMessage) {
     const chatId = msg.chat.id;
     const topic = match[1];
 
-    await bot.sendMessage(
-      chatId,
-      "⏳ Creating Story..."
-    );
+    await bot.sendMessage(chatId, "⏳ Creating Story...");
 
     try {
 
       const response = await ai.models.generateContent({
-
         model: "gemini-2.5-flash",
-
         contents: `
 Write a professional cinematic story.
 
@@ -23,7 +18,6 @@ Topic:
 ${topic}
 
 Requirements:
-
 - Powerful Title
 - Hook
 - Story
@@ -36,7 +30,6 @@ Length:
 Language:
 English.
 `
-
       });
 
       await sendLongMessage(
@@ -51,8 +44,7 @@ English.
 
       await bot.sendMessage(
         chatId,
-        "❌ Story Error:\n" +
-        (err.message || JSON.stringify(err))
+        "❌ Story Error:\n" + (err.message || JSON.stringify(err))
       );
 
     }
